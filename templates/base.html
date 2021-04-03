@@ -4,14 +4,6 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css')}}">
     </head>
     <body>
-        <nav>
-            <ul>
-                <a href="/">home</a>
-                <a href="/login">login</a>
-                <a href="/profile">profile</a>
-                <a href="/chat">chat</a>
-            </ul>
-        </nav>
         {% block content %}
         {% endblock content %}
     </body>
