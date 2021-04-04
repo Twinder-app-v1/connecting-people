@@ -6,8 +6,8 @@
         <div class="card-body">
             <h1>Chat</h1>
             <h2>{{room.roomname}}'s room</h2>
-            <div id="messages" style="height: 80vh"></div>
-            <input id="input" class="form-control w-100"/>
+            <div id="messages"></div>
+            <input id="input" class="form-control py-3 w-100"/>
         </div>
     </div>
 
@@ -50,6 +50,7 @@
             if (e.key === "Enter") {
                 socket.send(input.value);
                 input.value = "";
+                document.documentElement.scrollTop = 69420;
             }
         });
 
