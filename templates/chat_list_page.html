@@ -2,4 +2,14 @@
 {% block content %}
     {% include "nav.html" %}
     <h1>Chat list</h1>
+    {% if rooms %}
+        <ul>
+            {% for r in rooms %}
+                <li><a href="/chat/{{r.roomname}}">{{r.roomname}} {{r.created_at}}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <h2>You're not joined in any rooms</h2>
+        <a href="/">Join a room</a>
+    {% endif %}
 {% endblock %}

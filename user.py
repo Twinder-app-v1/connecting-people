@@ -4,27 +4,29 @@ import unittest
 import os.path
 
 class User:
-    def __init__(self, username, password_hash):
+    def __init__(self, username, password_hash, profile=[0.]*6):
         self.username = username
         if isinstance(password_hash, bytes):
             self.password_hash = password_hash
         elif isinstance(password_hash, str):
             self.password_hash = bytes(password_hash, "utf-8")
+        self.profile = profile
 
     def __iter__(self):
         yield self.username
         yield self.password_hash.decode("utf-8")
+        yield self.profile
 
     def validate(self, password):
         return bcrypt.checkpw(bytes(password, "utf-8"), self.password_hash)
 
-class UserModel:
+class Users:
     DATA_PATH = "users.db" # users.db is a dictionary of username to user tuple
 
     def __init__(self):
         self.users = {}
-        if not os.path.isfile(UserModel.DATA_PATH):
-            with open(UserModel.DATA_PATH, "w") as f:
+        if not os.path.isfile(Users.DATA_PATH):
+            with open(Users.DATA_PATH, "w") as f:
                 f.write("{}")
         self.load()
 
@@ -35,13 +37,11 @@ class UserModel:
         return username in self.users
 
     def __getitem__(self, username):
-        if username not in self:
-            raise Exception("user {} not found" % username)
         return self.users[username]
 
     def add(self, username, password):
         if username == "":
-            raise Exception("Invalid username: username can't be empty")
+            raise Exception("Invalid username: username cannot be empty")
         if username in self:
             raise Exception("Username taken")
         password_hash = bcrypt.hashpw(bytes(password, "utf-8"), bcrypt.gensalt())
@@ -53,18 +53,18 @@ class UserModel:
             del self.users[username]
 
     def load(self):
-        with open(UserModel.DATA_PATH, "r") as f:
+        with open(Users.DATA_PATH, "r") as f:
             d = f.read()
         self.users = dict(map(lambda u: (u[0], User(*u[1])), json.loads(d).items()))
 
     def save(self):
         d = json.dumps(dict(map(lambda u: (u[0], tuple(u[1])), self.users.items())), indent=4)
-        with open(UserModel.DATA_PATH, "w") as f:
+        with open(Users.DATA_PATH, "w") as f:
             f.write(d)
 
 class UserTest(unittest.TestCase):
     def setUp(self):
-        self.users = UserModel()
+        self.users = Users()
 
     def test_add(self):
         self.users.remove("johndoe")

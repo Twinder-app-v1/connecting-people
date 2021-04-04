@@ -2,5 +2,33 @@
 {% block content %}
     {% include "nav.html" %}
     <h1>Chat</h1>
-    <h2>{{chat_id}}</h2>
+    <h2>{{room.roomname}} room</h2>
+    <div id="messages"></div>
+    <input id="input"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        const socket = io();
+
+        const messages = document.querySelector("#messages");
+        function appendMsg(msg) {
+            const span = document.createElement("div");
+            span.innerText = msg;
+            messages.appendChild(span);
+        }
+
+        const input = document.querySelector("#input");
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                socket.send(input.value);
+                input.value = "";
+            }
+        });
+
+        socket.on("connect", () => {
+            // appendMsg("connected");
+        });
+        socket.on("message", (msg) => {
+            appendMsg(msg);
+        });
+    </script>
 {% endblock %}
