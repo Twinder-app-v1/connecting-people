@@ -3,7 +3,6 @@ from flask_socketio import SocketIO, send, join_room, leave_room
 import user
 import room
 import random
-import numpy as np
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -173,5 +172,4 @@ def on_message(data):
     print("%s@%s: %s" % (username, roomname, data))
     msg = "%s: %s" % (username, data)
     rooms[roomname].messages.append(msg)
-    print(rooms[roomname].combined_users_profile())
     send(msg, room=roomname)

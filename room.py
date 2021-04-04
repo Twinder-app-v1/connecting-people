@@ -9,9 +9,9 @@ class Room:
         self.created_at = time.time()  # unix timestamp (seconds since 1970)
 
     def combined_users_profile(self):
-        profile = np.array([0] * 6)
+        profile = np.array([0] * 6, dtype=np.float64)
         for u in self.users:
-            profile += u.profile
+            profile += np.array(u.profile, dtype=np.float64)
         return profile / np.linalg.norm(profile)
 
 class Rooms:
@@ -42,7 +42,7 @@ class Rooms:
         return res
 
     def closests_profile_match(self, profile):
-        pro = np.array(profile)
+        pro = np.array(profile, dtype=np.float64)
         print(self.rooms.values)
         min_room = list(self.rooms.values())[0]
         min_d = float("inf")
