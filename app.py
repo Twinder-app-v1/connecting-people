@@ -105,6 +105,7 @@ def join_room_post():
     pickable_rooms = list(filter(lambda room: len(room.users) < max_in_group, rooms.rooms.values()))
     if len(pickable_rooms) == 0:
         roomname = username
+        rooms.remove(roomname)
         rooms.add(roomname, [user])
     else:
         roomname = max(pickable_rooms, key=lambda x: x.score(profile)).roomname

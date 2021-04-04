@@ -45,6 +45,10 @@ class Rooms:
             raise Exception("Roomname taken")
         self.rooms[roomname] = Room(roomname, users)
 
+    def remove(self, roomname):
+        if roomname in self.rooms:
+            del self.rooms[roomname]
+
     def has_user(self, username):
         res = []
         for r in self.rooms.values():
