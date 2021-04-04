@@ -1,11 +1,13 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_socketio import SocketIO, send, join_room, leave_room
 import random
+import string
 from user import Users, PROFILE_TRAITS
 from room import Rooms
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = bytes("".join(random.choice(string.printable) for _ in range(20)), "utf-8")
 socketio = SocketIO(app, logger=True)
 users = Users()
 rooms = Rooms()

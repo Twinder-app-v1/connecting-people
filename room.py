@@ -1,5 +1,4 @@
 import time
-from flask_socketio import join_room, leave_room
 
 class Room:
     def __init__(self, roomname, users):
@@ -21,11 +20,9 @@ class Room:
         return sum(map(lambda x: x[0][1] + x[1][1], zip(self.profile(), profile)))
 
     def add(self, user):
-        join_room(self.roomname)
         self.users.append(user)
 
     def remove(self, user):
-        leave_room(self.roomname)
         self.users.remove(user)
 
 class Rooms:
