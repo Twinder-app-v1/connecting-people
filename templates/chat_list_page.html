@@ -19,7 +19,7 @@
         }
 
         .div-room{
-            
+
             margin: 20px 200px;
             height: 40px;
             padding: 10px;
@@ -39,12 +39,12 @@
     </style>
     {% include "nav.html" %}
     <div class="wrapper">
-        <div class="div-h1"> <h1>Chat list</h1></div> 
+        <div class="div-h1"> <h1>Chat list</h1></div>
         {% if rooms %}
         <div class="div-room">
             <ul>
                 {% for r in rooms %}
-                    <li id="id"><a href="/chat/{{r.roomname}}">{{r.roomname}} {{r.created_at}}</a></li>
+                    <li id="id"><a href="/chat/{{r.roomname}}">{{r.roomname}}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -55,5 +55,5 @@
         </div>
         {% endif %}
     </div>
-    
+
 {% endblock %}
