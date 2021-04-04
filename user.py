@@ -7,6 +7,12 @@ PROFILE_TRAITS = [
     "Coding", "Cooking", "Workout", "Math",
     "Biology", "Sky-diving",
     "First year", "Second year", "Third year", "Fourth year",
+    "FIT1045", "FIT2004", "MAT1830", "MTH2021", "FIT1008", "MTH2010",
+    "Computer Science", "Business", "Accounting", "Law", "Medicine", "Teaching",
+    "PhD", "Master", "Bachelor", "Chill-hop", "Anime",
+    "C", "C++", "Python", "JavaScript", "Java", "Golang",
+    "Night owl", "Early bird", "Monash", "Melbourne University", "UNSW",
+    "Adelaide university"
 ]
 
 class User:

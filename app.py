@@ -101,12 +101,12 @@ def join_room_post():
 
     # Join room
     user = users[username]
-    if len(rooms) == 0:
+    max_in_group = int(request.form.get("max_in_group") or 4)
+    pickable_rooms = list(filter(lambda room: len(room.users) < max_in_group, rooms.rooms.values()))
+    if len(pickable_rooms) == 0:
         roomname = username
         rooms.add(roomname, [user])
     else:
-        max_per_group = int(request.form.get("max_per_group") or 4)
-        pickable_rooms = list(filter(lambda room: len(room.users) < max_per_group, rooms.rooms.values()))
         roomname = max(pickable_rooms, key=lambda x: x.score(profile)).roomname
         if user not in rooms[roomname].users:
             rooms[roomname].add(user)
@@ -146,7 +146,7 @@ def on_connect():
     join_room(roomname)
     for msg in rooms[roomname].messages:
         send(msg)
-    msg = "%s entered the room. Ice-breaker question: %s" % (username, random.choice(random_prompts))
+    msg = "%s entered the room. Ice-breaker question -> %s" % (username, random.choice(random_prompts))
     print(msg)
     rooms[roomname].messages.append(msg)
     send(msg, room=roomname)

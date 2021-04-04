@@ -19,7 +19,17 @@
                     </label>
                     {% endfor %}
                 </div>
-                <button class="btn btn-success">Match!</button>
+                <label>
+                    Max group size
+                    <select class="form-control" name="max_in_group">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </label>
+                <button type="button" id="random" class="btn btn-warning">Randomize</button>
+                <button class="btn btn-success">Find group!</button>
             </form>
 
         </div>
@@ -49,6 +59,23 @@
                     span.classList.add("btn-secondary");
                 }
             })
+        });
+
+        const random = document.querySelector("#random");
+        random.addEventListener("click", () => {
+            checks.forEach((c) => {
+                const span = c.querySelector("span");
+                const checkbox = c.querySelector("input");
+                if (Math.random() < 0.5) {
+                    checkbox.checked = true;
+                    span.classList.remove("btn-secondary");
+                    span.classList.add("btn-primary");
+                } else {
+                    checkbox.checked = false;
+                    span.classList.remove("btn-primary");
+                    span.classList.add("btn-secondary");
+                }
+            });
         });
     </script>
 {% endblock %}
