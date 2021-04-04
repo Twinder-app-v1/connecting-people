@@ -1,8 +1,104 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Landing page</h1>
-    <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
-    </ul>
+    <style>
+        .landing{
+            background-color: #D9FF88;
+            text-align: center;
+            margin: auto;
+            height: 350px;
+            width: 400px;
+            border: 2px solid black;
+            margin-top: 70px;
+            border-radius: 20px;
+        }
+        .div-title{
+            background-color: #FF6262;
+            height: 48px;
+            width: 300px;
+            top: 129px;
+            border-radius: 10px;
+            margin: auto;
+            border: 2px solid black;
+            margin-top: 40px;
+        }
+        #title{
+            font-family: ABeeZee;
+            font-size: 30px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 28px;
+            letter-spacing: 0em;
+            text-align: center;
+            margin: auto;
+            margin-top: 10px;
+        }
+        .login{
+            height: 58px;
+            width: 200px;
+            top: 193px;
+            border-radius: 10px;
+            background-color: #74E6FF;
+            margin: auto;
+        }
+
+        .signup{
+            height: 58px;
+            width: 200px;
+            top: 193px;
+            border-radius: 10px;
+            background-color: #74E6FF;
+            margin: auto;
+            margin-top: 25px;
+        }
+
+        .div-ul{
+            margin-top: 30px;
+        }
+        
+        ul {
+            list-style-type: none;
+            margin-right: 40px;
+        }
+        a:link {
+            color: black;
+            text-decoration: none;
+            font-family: ABeeZee;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 28px;
+            letter-spacing: 0em;
+            text-align: center;
+        }
+        a:visited { 
+        color: black;
+        }
+        a:hover {
+        color: red;
+        }
+        a:active {
+        color: blue;
+        }
+        li{
+            padding: 10px;
+        }
+
+    </style>
+    <div class = "landing"> 
+        <div class = "div-title"> 
+            <h1 id="title">Landing page</h1>
+        </div>
+        <div class="div-ul">
+            <ul>
+                <div class="login">
+                    <li><a href="/login">Login</a></li>
+                </div> 
+                <div class="signup">
+                    <li><a href="/register">Register</a></li>
+                </div> 
+            </ul> 
+        </div>
+
+    </div>
+    
 {% endblock %}

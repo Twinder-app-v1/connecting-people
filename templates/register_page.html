@@ -1,12 +1,113 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Register</h1>
-    {% if err %}
-        <span>{{err}}</span>
-    {% endif %}
-    <form method="POST" action="/register">
-        <input type="text" name="username" placeholder="Username" />
-        <input type="password" name="password" placeholder="Password" />
-        <button>Register</button>
-    </form>
+<style>
+    .warapper{
+        margin: auto;
+        background-color: #D9FF88;
+        width: 348px;
+        height: 500px;
+        margin-top: 70px;
+        padding-top: 5px;
+        border-radius: 20px;
+    }
+
+    .div-title{
+        background-color: #FF6262;
+        height: 48px;
+        width: 300px;
+        top: 129px;
+        border-radius: 10px;
+        margin: auto;
+        border: 2px solid black;
+        margin-top: 50px;
+    }
+
+    #title{
+        font-family: ABeeZee;
+        font-size: 30px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 28px;
+        letter-spacing: 0em;
+        text-align: center;
+        margin: auto;
+        margin-top: 10px;
+    }
+
+    .div-form{
+        width: 273px;
+        height: 350px;
+        border-radius: 10px;
+        margin: auto;
+        margin-top: 30px;
+        text-align: center;
+    }
+
+    input{
+        width: 250px;
+        height: 50px;
+        background: #74E6FF;
+        border-radius: 10px;
+        font-family: PT Sans;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 20px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: 
+
+    }
+    .div-pass{
+        margin-top: 20px;
+    }
+
+    .div-btn{
+        margin-top: 15px;
+    }
+
+    button{
+        width: 90px;
+        height: 35px;
+        background: #FFFEFE;
+        border-radius: 20px;
+        margin: auto;
+    }
+    
+    .div-to-login{
+        width: 298px;
+        height: 41.66px;
+        font-family: PT Sans;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 18px;
+        color: #FF0660;
+        margin: auto;
+        margin-top: 10px;
+    }
+    
+</style>
+    <div class="warapper" > 
+        <div class="div-title">
+            <h1 id = "title" >Register</h1>
+        </div>
+        {% if err %}
+            <span>{{err}}</span>
+        {% endif %}
+        <div class = "div-form">
+            <form method="POST" action="/register">
+                <div class="div-text">
+                    <input id="text" type="text" name="username" placeholder="Username" />
+                </div>
+                <div class="div-pass">
+                    <input id="pass"type="password" name="password" placeholder="Password" />
+                </div>
+                <div class = "div-btn">
+                    <button>Register</button>
+                </div>
+                <div class="div-to-login"> Already have an account ? Please <a href="/login"> Sign in here </a> </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
