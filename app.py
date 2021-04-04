@@ -103,6 +103,7 @@ def join_room_post():
     user = users[username]
     max_in_group = int(request.form.get("max_in_group") or 4)
     pickable_rooms = list(filter(lambda room: len(room.users) < max_in_group, rooms.rooms.values()))
+    pickable_rooms = list(filter(lambda room: user not in room.users, pickable_rooms))
     if len(pickable_rooms) == 0:
         roomname = username
         rooms.remove(roomname)
