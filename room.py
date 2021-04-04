@@ -1,5 +1,5 @@
 import time
-import numpy as np
+from flask_socketio import join_room, leave_room
 
 class Room:
     def __init__(self, roomname, users):
@@ -8,11 +8,25 @@ class Room:
         self.messages = []
         self.created_at = time.time()  # unix timestamp (seconds since 1970)
 
-    def combined_users_profile(self):
-        profile = np.array([0] * 6, dtype=np.float64)
-        for u in self.users:
-            profile += np.array(u.profile, dtype=np.float64)
-        return profile / np.linalg.norm(profile)
+    def profile(self):
+        """ returns profile of room same format as user profile
+        """
+        res = self.users[0].profile
+        for u in self.users[1:]:
+            _, vals = zip(*u.profile)
+            res = [(k, v1+v2) for (k, v1), v2 in zip(res, vals)]
+        return res
+
+    def score(self, profile):
+        return sum(map(lambda x: x[0][1] + x[1][1], zip(self.profile(), profile)))
+
+    def add(self, user):
+        join_room(self.roomname)
+        self.users.append(user)
+
+    def remove(self, user):
+        leave_room(self.roomname)
+        self.users.remove(user)
 
 class Rooms:
     def __init__(self):
@@ -40,16 +54,3 @@ class Rooms:
             if username in map(lambda u: u.username, r.users):
                 res.append(r)
         return res
-
-    def closests_profile_match(self, profile):
-        pro = np.array(profile, dtype=np.float64)
-        print(self.rooms.values)
-        min_room = list(self.rooms.values())[0]
-        min_d = float("inf")
-        for r in self.rooms.values():
-            p = r.combined_users_profile()
-            d = np.linalg.norm(p - pro / np.linalg.norm(pro))
-            if d < min_d:
-                min_d = d
-                min_room = r
-        return min_room
