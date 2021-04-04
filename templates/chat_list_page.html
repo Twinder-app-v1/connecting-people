@@ -1,15 +1,59 @@
 {% extends "base.html" %}
 {% block content %}
+    <style>
+        .wrapper{
+            text-align: center;
+        }
+
+        .div-h1{
+            background-color: #FF9A9A;
+        }
+
+        li{
+            list-style-type: none;
+        }
+
+        #id{
+            background-color: #D9FF88;
+            margin-top: 15px;
+        }
+
+        .div-room{
+            
+            margin: 20px 200px;
+            height: 40px;
+            padding: 10px;
+        }
+
+        a{
+            font-family: ABeeZee;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 28px;
+            letter-spacing: 0em;
+            text-align: center;
+
+        }
+
+    </style>
     {% include "nav.html" %}
-    <h1>Chat list</h1>
-    {% if rooms %}
-        <ul>
-            {% for r in rooms %}
-                <li><a href="/chat/{{r.roomname}}">{{r.roomname}} {{r.created_at}}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <h2>You're not joined in any rooms</h2>
-        <a href="/">Join a room</a>
-    {% endif %}
+    <div class="wrapper">
+        <div class="div-h1"> <h1>Chat list</h1></div> 
+        {% if rooms %}
+        <div class="div-room">
+            <ul>
+                {% for r in rooms %}
+                    <li id="id"><a href="/chat/{{r.roomname}}">{{r.roomname}} {{r.created_at}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% else %}
+        <div class ="join-room">
+            <h2>You're not joined in any rooms</h2>
+            <a href="/">Join a room</a>
+        </div>
+        {% endif %}
+    </div>
+    
 {% endblock %}
