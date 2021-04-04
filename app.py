@@ -11,9 +11,6 @@ socketio = SocketIO(app, logger=True)
 users = Users()
 rooms = Rooms()
 
-# Think of a better design than this ...
-random_roomnames = ["blue", "red", "green", "purple", "orange", "pink", "yellow", "green"]
-
 random_prompts = [
     "Do you love working from home or would you rather be in the office? Is there a balance of both that you like best?",
     "What’s the hardest part about working virtually for you? The easiest?",
@@ -105,13 +102,13 @@ def join_room_post():
     # Join room
     user = users[username]
     if len(rooms) == 0:
-        roomname = "room-one"
+        roomname = username
         rooms.add(roomname, [user])
     else:
         max_per_group = int(request.form.get("max_per_group") or 4)
         pickable_rooms = list(filter(lambda room: len(room.users) < max_per_group, rooms.rooms.values()))
         roomname = max(pickable_rooms, key=lambda x: x.score(profile)).roomname
-        if user not in rooms[roomname]:
+        if user not in rooms[roomname].users:
             rooms[roomname].add(user)
 
     print("%s joined room %s" % (username, roomname))
