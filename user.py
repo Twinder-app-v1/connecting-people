@@ -3,14 +3,20 @@ import bcrypt
 import unittest
 import os.path
 
+PROFILE_TRAITS = [
+    "Coding", "Cooking", "Workout", "Math",
+    "Biology", "Sky-diving",
+    "First year", "Second year", "Third year", "Fourth year",
+]
+
 class User:
-    def __init__(self, username, password_hash, profile=[0.]*6):
+    def __init__(self, username, password_hash, profile=list(map(lambda trait: (trait, False), PROFILE_TRAITS))):
         self.username = username
         if isinstance(password_hash, bytes):
             self.password_hash = password_hash
         elif isinstance(password_hash, str):
             self.password_hash = bytes(password_hash, "utf-8")
-        self.profile = profile
+        self.profile = profile  # array of tuple. eg: ["cooking": True, "math": False]
 
     def __iter__(self):
         yield self.username
@@ -58,7 +64,7 @@ class Users:
         self.users = dict(map(lambda u: (u[0], User(*u[1])), json.loads(d).items()))
 
     def save(self):
-        d = json.dumps(dict(map(lambda u: (u[0], tuple(u[1])), self.users.items())), indent=4)
+        d = json.dumps(dict(map(lambda u: (u[0], tuple(u[1])), self.users.items())))
         with open(Users.DATA_PATH, "w") as f:
             f.write(d)
 
