@@ -1,17 +1,43 @@
 from flask import Flask, render_template, request, redirect, session
 from flask_socketio import SocketIO, send, join_room, leave_room
 import random
+import string
 from user import Users, PROFILE_TRAITS
 from room import Rooms
 
 app = Flask(__name__)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = bytes("".join(random.choice(string.printable) for _ in range(20)), "utf-8")
 socketio = SocketIO(app, logger=True)
 users = Users()
 rooms = Rooms()
 
-# Think of a better design than this ...
-random_roomnames = ["blue", "red", "green", "purple", "orange", "pink", "yellow", "green"]
+random_prompts = [
+    "Do you love working from home or would you rather be in the office? Is there a balance of both that you like best?",
+    "What’s the hardest part about working virtually for you? The easiest?",
+    "Do you have a dedicated office space at home?",
+    "Show us your office space!",
+    "Where do you work most frequently from at home? Your office? Your kitchen table? The backyard? Your bed?",
+    "Be honest, how often do you work from bed?",
+    "What did you eat for breakfast?",
+    "What does your morning routine look like when working from home?",
+    "What’s your number one tip for combating distractions when working from home?",
+    "How do you stay productive and motivated working virtually?",
+    "What does your typical work from home uniform look like?",
+    "How many cups of coffee, tea, or beverage-of-choice do you have each morning?",
+    "Are you an early bird or night owl?",
+    "What about showers? Do you prefer morning or night?",
+    "What’s one thing we could do to improve our virtual meetings?",
+    "What’s your favorite flower or plant?",
+    "What’s your caffeinated beverage of choice? Coffee? Cola? Tea?",
+    "What’s your favorite scent?",
+    "What’s the last great TV show or movie you wanted?",
+    "Best book you’ve ever read?",
+    "Best professional development book you’ve ever read?",
+    "If you could learn one new professional skill, what would it be?",
+    "If you could learn one new personal skill, what would it be?",
+    "What’s your favorite way to get in some exercise?",
+    "If you could write a book, what genre would you write it in? Mystery? Thriller? Romance? Historical fiction? Non-fiction?",
+]
 
 @app.route("/")
 def home_page(err=""):
@@ -76,11 +102,14 @@ def join_room_post():
     # Join room
     user = users[username]
     if len(rooms) == 0:
-        roomname = "room-one"
+        roomname = username
         rooms.add(roomname, [user])
     else:
-        roomname = max(rooms.rooms.values(), key=lambda x: x.score(profile)).roomname
-        rooms[roomname].add(user)
+        max_per_group = int(request.form.get("max_per_group") or 4)
+        pickable_rooms = list(filter(lambda room: len(room.users) < max_per_group, rooms.rooms.values()))
+        roomname = max(pickable_rooms, key=lambda x: x.score(profile)).roomname
+        if user not in rooms[roomname].users:
+            rooms[roomname].add(user)
 
     print("%s joined room %s" % (username, roomname))
     return redirect("/chat/" + roomname)
@@ -117,8 +146,9 @@ def on_connect():
     join_room(roomname)
     for msg in rooms[roomname].messages:
         send(msg)
-    msg = "%s entered the room" % username
+    msg = "%s entered the room. Ice-breaker question: %s" % (username, random.choice(random_prompts))
     print(msg)
+    rooms[roomname].messages.append(msg)
     send(msg, room=roomname)
 
 @socketio.on("leave")
@@ -132,6 +162,7 @@ def on_disconnect():
     leave_room(roomname)
     msg = "%s left the room" % username
     print(msg)
+    rooms[roomname].messages.append(msg)
     send(msg, room=roomname)
 
 @socketio.on("message")

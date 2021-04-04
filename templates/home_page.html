@@ -1,15 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
     {% include "nav.html" %}
-    <h1>Welcome {{username}}</h1>
-    <span>{{err}}</span>
-    <form method="POST" action="/profile">
-        {% for key,val in profile %}
-            <label>
-                {{key}}
-                <input type="checkbox" name="trait-{{key}}" {{"checked" if val else ""}} />
-            </label>
-        {% endfor %}
-        <button>Match!</button>
-    </form>
+    <div class="card">
+        <div class="card-body">
+            <h1>Welcome {{username}}</h1>
+            <span>{{err}}</span>
+
+            <form method="POST" action="/profile">
+                <div>
+                    {% for key,val in profile %}
+                    <label class="check mx-1">
+                        <span class="btn">
+                            {{key}}
+                        </span>
+                        <input type="checkbox" name="trait-{{key}}"
+                            {{"checked" if val else ""}} style="display: none;"
+                        />
+                    </label>
+                    {% endfor %}
+                </div>
+                <button class="btn btn-success">Match!</button>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        const checks = document.querySelectorAll(".check");
+        checks.forEach((c) => {
+            // Initial states
+            const span = c.querySelector("span");
+            const checkbox = c.querySelector("input");
+            if (checkbox.checked) {
+                span.classList.add("btn-primary");
+            } else {
+                span.classList.add("btn-secondary");
+            }
+
+            // Change on click
+            c.addEventListener("change", () => {
+                const span = c.querySelector("span");
+                const checkbox = c.querySelector("input");
+                if (checkbox.checked) {
+                    span.classList.remove("btn-secondary");
+                    span.classList.add("btn-primary");
+                } else {
+                    span.classList.remove("btn-primary");
+                    span.classList.add("btn-secondary");
+                }
+            })
+        });
+    </script>
 {% endblock %}
