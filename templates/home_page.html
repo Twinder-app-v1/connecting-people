@@ -3,23 +3,13 @@
     {% include "nav.html" %}
     <h1>Welcome {{username}}</h1>
     <span>{{err}}</span>
-    <h2>Random matching</h2>
-    <p>Or just random</p>
-    <form action="/random_create">
-        <button>Random create</button>
-    </form>
-    <form action="/random_join">
-        <button>Random join</button>
-    </form>
-    <h2>Smart matching</h2>
-    <p>Group up with other people with similar personality traits as you</p>
     <form method="POST" action="/profile">
-        Sloppy <input type="range" min="-100" max="100" value="{{profile[0]}}" name="sloppy-neat"/> Neat<br>
-        Shy <input type="range" min="-100" max="100" value="{{profile[1]}}" name="shy-outgoing"/> Outgoing<br>
-        Lazy <input type="range" min="-100" max="100" value="{{profile[2]}}" name="lazy-active"/> Active<br>
-        Sesious <input type="range" min="-100" max="100" value="{{profile[3]}}" name="serious-playful"/> Playful<br>
-        Grouchy <input type="range" min="-100" max="100" value="{{profile[4]}}" name="grouchy-nice"/> Nice<br>
-        Evil <input type="range" min="-100" max="100" value="{{profile[5]}}" name="evil-good"/> Good<br>
+        {% for key,val in profile %}
+            <label>
+                {{key}}
+                <input type="checkbox" name="trait-{{key}}" {{"checked" if val else ""}} />
+            </label>
+        {% endfor %}
         <button>Match!</button>
     </form>
 {% endblock %}
