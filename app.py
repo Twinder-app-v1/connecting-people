@@ -37,6 +37,7 @@ random_prompts = [
     "If you could learn one new personal skill, what would it be?",
     "What’s your favorite way to get in some exercise?",
     "If you could write a book, what genre would you write it in? Mystery? Thriller? Romance? Historical fiction? Non-fiction?",
+    "What is your chance of getting lottery? :)"
 ]
 
 @app.route("/")
