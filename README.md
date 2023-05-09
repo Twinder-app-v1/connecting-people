@@ -28,8 +28,14 @@ Twinder-app-v1 is an ideal starting point for developers looking to create a soc
 ## Set the server:
 - flask run
 
-Run server:
-    gunicorn -b 0.0.0.0:80 app:app
+## OR 
+
+You can run server by: 
+
+1. Install gunicorn: pip install gunicorn
+2. Run the application using gunicorn: gunicorn -b 0.0.0.0:80 app:app
+3. This command will start the gunicorn server, binding it to all available network interfaces (0.0.0.0) on port 80. 
+4. Open your web browser and navigate to http://localhost:80 (or http://localhost:<alternative_port> if you used an alternative port number) to access the application.
 
 
 
